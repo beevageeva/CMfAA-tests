@@ -4,39 +4,55 @@
         saveprim=.true.
         nwauxio=1
 	convert_type='vtuBCCmpi'
+        !restart_from_file = 'bw_1d0040.dat'
  /
 
  &savelist
-        dtsave_dat=0.05
+        !dtsave_dat=1d-4
+        dtsave_dat=1d0
  /
 
  &stoplist
-        time_max=0.25d0
+        time_max=35.0
  /
 
  &methodlist
         time_stepper='threestep'
-        flux_scheme=20*'hllc'
+        !flux_scheme=20*'hllc'
+        !flux_scheme=20*'tvdmu'
+        flux_scheme=20*'tvdlf'
         limiter=20*'koren'
  /
 
  &boundlist
-        typeboundary_min1=3*'cont'
-        typeboundary_max1=3*'cont'
+        typeboundary_min1=3*'periodic'
+        typeboundary_max1=3*'periodic'
  / 
 
  &meshlist
         refine_criterion=3
-        refine_max_level=3
+        refine_max_level=1
+        !refine_max_level=3
         w_refine_weight(1)=0.5
         w_refine_weight(3)=0.5
-        block_nx1=10
-        domain_nx1=100
-        xprobmin1=0d0
+        block_nx1=80
+        domain_nx1=3200
+        xprobmin1=-36d0
         xprobmax1=36d0
  /
+
+ &hd_list
+        hd_radiative_cooling  = .false.
+        hd_thermal_conduction = .false.
+ /
+
+
 
  &paramlist
         typecourant='maxsum'
         courantpar=0.5d0
+ /
+ &tc_list
+  tc_saturate     =.true.
+  tc_k_para =1d-8
  /

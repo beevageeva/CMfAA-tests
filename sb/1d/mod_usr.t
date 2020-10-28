@@ -6,13 +6,14 @@ contains
 
   subroutine usr_init()
     unit_length        = 3.0857d18
-    unit_temperature   = 1d2
+    unit_temperature   = 1d7
     unit_numberdensity = 1d0
     usr_init_one_grid => initonegrid_usr
     usr_aux_output    => specialvar_output
     usr_add_aux_names => specialvarnames_output 
 
     call set_coordinate_system("spherical")
+    !call set_coordinate_system("Cartesian_1D")
     call hd_activate()
 
   end subroutine usr_init
@@ -27,11 +28,14 @@ contains
 
     double precision :: rbs,xc1
     rbs=1D18/unit_length
+
+    !print*, "UNITTIME", unit_time
+
     w(ixO^S,rho_)=1.d0*mp_cgs/unit_density
-    w(ixO^S,p_)=1d2/unit_pressure
+    w(ixO^S,p_)=1d2*mp_cgs/unit_pressure
     xc1=(xprobmin1+xprobmax1)*0.5d0
     where((x(ixO^S,1)-xc1)**2<rbs**2)
-      w(ixO^S,p_)=((1d51/(4d0/3d0 * dpi * 1d18**3))*(hd_gamma-1)) /unit_pressure
+      w(ixO^S,p_)=((1d51/(4d0/3d0 * dpi * 1d18**3))*(hd_gamma-1.0)) /unit_pressure
     endwhere
     w(ixO^S,mom(:))=0.d0
 
